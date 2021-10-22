@@ -21,7 +21,7 @@ We're going to start by transforming our app into multiple environments. You'll 
 
 <details><summary>Not sure how?</summary>
 
-Add a new file called `_varibles.tf`. Inside that file, add the variable block:
+Add a new file called <code>_variables.tf</code>. Inside that file, add the variable block:
 
 <pre>
 variable "env" {
@@ -30,7 +30,7 @@ variable "env" {
 }
 </pre>
 
-Don't give it a `default`, because we want to force the environment to be passed explicitly.
+Don't give it a <code>default</code>, because we want to force the environment to be passed explicitly.
 
 </details>
 
@@ -40,15 +40,15 @@ Now our variable is defined, so terraform expects to see it. But we still need t
 
 <details><summary>Not sure how?</summary>
 
-Add two new files: `config/dev.tfvars` and `config/prod.tfvars`.
+Add two new files: <code>config/dev.tfvars</code> and <code>config/prod.tfvars</code>.
 
-Inside of `dev.tfvars`, add:
+Inside of <code>dev.tfvars</code>, add:
 
 <pre>
 env = "dev"
 </pre>
 
-Likewise in `prod.tfvars`:
+Likewise in <code>prod.tfvars</code>:
 
 <pre>
 env = "prod"
@@ -135,6 +135,7 @@ Let's say our SQS queue already exists. The SQS queue is some centralized proces
 In order to do this, we'll need to pretend like that SQS application is already in place. 
 
 <input type="checkbox" class="task-list-item-checkbox">Remove your `aws_sqs_queue` resource
+
 <input type="checkbox" class="task-list-item-checkbox">Manually create a dummy SQS queue in the AWS console
     - in your browser, go into your AWS console and navigate to SQS. Create a standard SQS queue and give it a unique name (**different than the name you gave your queue created via terraform**)
 
