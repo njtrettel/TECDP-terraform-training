@@ -17,7 +17,7 @@ In this exercise and lab, we're going to create a simple app with an SNS topic t
 
 We're going to start by transforming our app into multiple environments. You'll notice our SNS topic and SQS queue names have `dev` hard-coded. We want to make this dynamic, so that we can just tell terraform to deploy to dev, prod, or wherever, and it uses the appropriate value.
 
-- [x] Create a `_variables.tf` file and add a variable called `env` - [docs](https://www.terraform.io/docs/language/values/variables.html)
+<input type="checkbox" class="task-list-item-checkbox">Create a `_variables.tf` file and add a variable called `env` - [docs](https://www.terraform.io/docs/language/values/variables.html)
 
 <details><summary>Not sure how?</summary>
 
@@ -36,7 +36,7 @@ Don't give it a `default`, because we want to force the environment to be passed
 
 Now our variable is defined, so terraform expects to see it. But we still need to actually provide the value. Recall that we can stick all of our variable values in a file ending in `.tfvars`, and then tell terraform to use that file during plan and apply. That's the best fit for our scenario because we always want to chose one file or the other, never both.
 
-- [x] In a new directory called `config/`, add a `dev.tfvars` and `prod.tfvars` which provide values for the `env` variable
+<input type="checkbox" class="task-list-item-checkbox">In a new directory called `config/`, add a `dev.tfvars` and `prod.tfvars` which provide values for the `env` variable
 
 <details><summary>Not sure how?</summary>
 
@@ -58,7 +58,7 @@ env = "prod"
 
 The last thing we need to do is actually use that variable in our resource. In `main.tf`, you'll see that the SNS and SQS names have `-dev` hard-coded. We need to replace that with our variable. 
 
-- [x] Replace the hard-coded `dev` with the `env` variable value
+<input type="checkbox" class="task-list-item-checkbox">Replace the hard-coded `dev` with the `env` variable value
 
 _**Hint**: You can use string "interpolation" in terraform like this: `"foo-${var.bar}"`_
 
@@ -76,13 +76,13 @@ resource "aws_sqs_queue" "my_queue" {
 
 </details>
 
-- [x] Run terraform `plan` and `apply` and ensure your resources are created correctly
+<input type="checkbox" class="task-list-item-checkbox">Run terraform `plan` and `apply` and ensure your resources are created correctly
 
 ## Creating outputs
 
 You might imagine a scenario where we need the SNS topic ARN in a different app or account. For example, apps that utilize the CCOE Alarm Funnel require its SNS topic arn. It might be useful to print that out when terraform runs so we can easily verify it and copy it. Let's add an output to do just that.
 
-- [x] Add an output for the SNS topic in a new file called `_outputs.tf`
+<input type="checkbox" class="task-list-item-checkbox">Add an output for the SNS topic in a new file called `_outputs.tf`
 
 <details><summary>Not sure how?</summary>
 
@@ -97,7 +97,7 @@ output "sns_topic_arn" {
 
 Now when we run terraform, we should see the output.
 
-- [x] Run terraform `plan` and `apply` again and see the output value. You can also run `terraform output` and it will print them.
+<input type="checkbox" class="task-list-item-checkbox">Run terraform `plan` and `apply` again and see the output value. You can also run `terraform output` and it will print them.
 
 ## Creating resource dependencies
 
@@ -105,7 +105,7 @@ Our app isn't quite done yet. So far, we only have the SNS topic and SQS queue, 
 
 We can use the outputs of our SNS and SQS resources inside of our `aws_sns_topic_subscription` resource instead of hard-coding some long ARN.
 
-- [x] Create the `aws_sns_topic_subscription` resource and wire it up to the SQS queue
+<input type="checkbox" class="task-list-item-checkbox">Create the `aws_sns_topic_subscription` resource and wire it up to the SQS queue
 
 <details><summary>Not sure how?</summary>
 
@@ -123,7 +123,7 @@ Now we've told terraform to use the output values of the `aws_sns_topic` and `aw
 
 When we run `terraform plan`, you'll see the values for the SNS topic subscription say `(known after apply)`. This is because terraform won't know those values until after the creation of those resources. Furthermore, you'll notice that terraform creates the SNS topic and SQS queue immediately, but it waits until those are done to create the subscription.
 
-- [x] Run terraform `plan` and `apply` and notice the order in which the resources are created
+<input type="checkbox" class="task-list-item-checkbox">Run terraform `plan` and `apply` and notice the order in which the resources are created
 
 
 ### Lab
@@ -134,13 +134,13 @@ Let's say our SQS queue already exists. The SQS queue is some centralized proces
 
 In order to do this, we'll need to pretend like that SQS application is already in place. 
 
-- [x] Remove your `aws_sqs_queue` resource
-- [x] Manually create a dummy SQS queue in the AWS console
+<input type="checkbox" class="task-list-item-checkbox">Remove your `aws_sqs_queue` resource
+<input type="checkbox" class="task-list-item-checkbox">Manually create a dummy SQS queue in the AWS console
     - in your browser, go into your AWS console and navigate to SQS. Create a standard SQS queue and give it a unique name (**different than the name you gave your queue created via terraform**)
 
 Now change the queue in the `aws_sns_topic_subscription` to be the value of the existing queue you just created manually
 
-- [x] Replace your `aws_sqs_queue` resource with a data source and use it in the `aws_sns_topic_subscription`
+<input type="checkbox" class="task-list-item-checkbox">Replace your `aws_sqs_queue` resource with a data source and use it in the `aws_sns_topic_subscription`
 
 <details><summary>Solution</summary>
 
